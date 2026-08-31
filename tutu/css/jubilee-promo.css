@@ -1,0 +1,485 @@
+/* Jubilee promo modal (static landing) */
+
+.tutu-promo-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 2147483000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px 16px;
+	background: rgba(26, 18, 56, 0.55);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.35s ease, visibility 0.35s ease;
+	font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+	box-sizing: border-box;
+}
+
+.tutu-promo-overlay.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.tutu-promo-overlay *,
+.tutu-promo-overlay *::before,
+.tutu-promo-overlay *::after {
+	box-sizing: border-box;
+}
+
+.tutu-promo-wrap {
+	position: relative;
+	width: 100%;
+	max-width: 358px;
+	padding-top: 52px;
+	transform: translateY(16px) scale(0.98);
+	transition: transform 0.35s ease;
+}
+
+.tutu-promo-overlay.is-open .tutu-promo-wrap {
+	transform: translateY(0) scale(1);
+}
+
+.tutu-promo-spark {
+	position: absolute;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.tutu-promo-spark--a {
+	left: 17px;
+	top: 93px;
+	width: 14px;
+	height: 14px;
+	background: #ffb12e;
+	clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.tutu-promo-spark--b {
+	right: 20px;
+	top: 109px;
+	width: 14px;
+	height: 14px;
+	background: #ff5f8a;
+	transform: rotate(12deg);
+	clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.tutu-promo-spark--c {
+	left: 14px;
+	bottom: 160px;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: #a98fff;
+}
+
+.tutu-promo-spark--d {
+	right: 10px;
+	bottom: 156px;
+	width: 11px;
+	height: 11px;
+	background: #ffd25a;
+	clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.tutu-promo-spark--e {
+	left: 14px;
+	bottom: 40px;
+	width: 14px;
+	height: 14px;
+	background: #ff6f91;
+	transform: rotate(-18deg);
+	clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.tutu-promo-spark--f {
+	right: 10px;
+	bottom: 36px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #8e73ff;
+}
+
+.tutu-promo-glow {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	z-index: 0;
+	width: 142px;
+	height: 142px;
+	margin-left: -71px;
+	border-radius: 50%;
+	background: rgba(115, 83, 255, 0.32);
+	filter: blur(14px);
+	pointer-events: none;
+}
+
+.tutu-promo-badge {
+	position: absolute;
+	left: 50%;
+	top: 20px;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 102px;
+	height: 102px;
+	margin-left: -51px;
+}
+
+.tutu-promo-badge__ring {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: #e8e1ff;
+}
+
+.tutu-promo-badge__fill {
+	position: absolute;
+	inset: 8px;
+	border-radius: 50%;
+	background: linear-gradient(132deg, #9d88ff 0%, #5a35e7 100%);
+	box-shadow: 0 10px 24px rgba(90, 53, 231, 0.35);
+}
+
+.tutu-promo-badge__stroke {
+	position: absolute;
+	inset: 8.75px;
+	border-radius: 50%;
+	border: 1.5px solid rgba(255, 255, 255, 0.6);
+	pointer-events: none;
+}
+
+.tutu-promo-badge__logo {
+	position: relative;
+	z-index: 1;
+	width: 58px;
+	height: 40px;
+	object-fit: contain;
+}
+
+.tutu-promo-badge__dot {
+	position: absolute;
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.tutu-promo-badge__dot--y {
+	right: 14px;
+	top: 11px;
+	width: 16px;
+	height: 16px;
+	background: #ffd45f;
+}
+
+.tutu-promo-badge__dot--p {
+	left: 11px;
+	top: 13px;
+	width: 10px;
+	height: 10px;
+	background: #ff8ea9;
+}
+
+.tutu-promo-card {
+	position: relative;
+	z-index: 10;
+	overflow: hidden;
+	border-radius: 40px;
+	background: #fff;
+	padding: 86px 28px 24px;
+	box-shadow: 0 24px 60px rgba(33, 24, 66, 0.22);
+}
+
+.tutu-promo-card__tint {
+	position: absolute;
+	inset: auto 0 0;
+	height: 180px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(243, 238, 255, 0.55) 100%);
+	pointer-events: none;
+}
+
+.tutu-promo-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tutu-promo-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	border-radius: 999px;
+	background: #eee9ff;
+	padding: 8px 14px;
+}
+
+.tutu-promo-pill img {
+	width: 20px;
+	height: 20px;
+	object-fit: contain;
+}
+
+.tutu-promo-pill span {
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: #5b38e2;
+}
+
+.tutu-promo-title {
+	margin: 12px 0 0;
+	text-align: center;
+	font-size: 29px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	color: #211842;
+}
+
+.tutu-promo-years {
+	margin-top: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+.tutu-promo-years span {
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1;
+	color: #6a47ea;
+}
+
+.tutu-promo-years img {
+	width: 48px;
+	height: 32px;
+	object-fit: contain;
+}
+
+.tutu-promo-lead {
+	margin: 12px 0 0;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #413a58;
+}
+
+.tutu-promo-sub {
+	margin: 4px 0 0;
+	text-align: center;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.2;
+	color: #6b647d;
+}
+
+.tutu-promo-prize {
+	position: relative;
+	margin-top: 16px;
+	width: 100%;
+	overflow: hidden;
+	border-radius: 28px;
+	padding: 20px 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(136deg, #6f4eff 0%, #5a36e8 54%, #3c20b4 100%);
+	box-shadow: inset 0 0 0 1.5px rgba(175, 160, 255, 0.55);
+}
+
+.tutu-promo-prize__blob {
+	position: absolute;
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.tutu-promo-prize__blob--tl {
+	left: -4px;
+	top: -4px;
+	width: 48px;
+	height: 48px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.tutu-promo-prize__blob--br {
+	right: -8px;
+	bottom: -12px;
+	width: 68px;
+	height: 68px;
+	background: rgba(255, 255, 255, 0.07);
+}
+
+.tutu-promo-prize__star {
+	position: absolute;
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.tutu-promo-prize__star--y {
+	left: 24px;
+	top: 24px;
+	width: 12px;
+	height: 12px;
+	background: #ffd45f;
+}
+
+.tutu-promo-prize__star--p {
+	right: 32px;
+	bottom: 40px;
+	width: 10px;
+	height: 10px;
+	background: #ff91af;
+}
+
+.tutu-promo-prize__label {
+	position: relative;
+	margin: 0;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #dcd5ff;
+}
+
+.tutu-promo-prize__amount {
+	position: relative;
+	margin: 4px 0 0;
+	font-size: 45px;
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+	color: #fff;
+}
+
+.tutu-promo-check {
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.tutu-promo-check img {
+	width: 26px;
+	height: 26px;
+}
+
+.tutu-promo-check span {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1;
+	color: #514967;
+}
+
+.tutu-promo-cta {
+	position: relative;
+	margin-top: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 68px;
+	border: 0;
+	border-radius: 20px;
+	cursor: pointer;
+	font: inherit;
+	font-size: 18px;
+	font-weight: 700;
+	color: #fff;
+	background: linear-gradient(174deg, #7657ff 0%, #4c2ed8 100%);
+	box-shadow:
+		inset 0 0 0 1.5px rgba(169, 148, 255, 0.7),
+		0 12px 28px rgba(76, 46, 216, 0.35);
+	transition: transform 0.15s ease;
+}
+
+.tutu-promo-cta:active {
+	transform: scale(0.98);
+}
+
+.tutu-promo-cta__arrow {
+	position: absolute;
+	right: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.16);
+}
+
+.tutu-promo-cta__arrow img {
+	width: 14px;
+	height: 10px;
+}
+
+.tutu-promo-hint {
+	margin: 16px 0 0;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1;
+	color: #817990;
+}
+
+.tutu-promo-route {
+	position: relative;
+	margin-top: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 160px;
+	height: 28px;
+}
+
+.tutu-promo-route__dash {
+	width: 132px;
+	height: 15px;
+	object-fit: contain;
+}
+
+.tutu-promo-route__dot {
+	position: absolute;
+	left: 4px;
+	top: 50%;
+	width: 8px;
+	height: 8px;
+	margin-top: -4px;
+	border-radius: 50%;
+	background: #8a6cff;
+}
+
+.tutu-promo-route__plane {
+	position: absolute;
+	right: 0;
+	top: 2px;
+	width: 16px;
+	height: 13px;
+	object-fit: contain;
+}
+
+@media (max-width: 380px) {
+	.tutu-promo-card {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	.tutu-promo-title {
+		font-size: 26px;
+	}
+
+	.tutu-promo-prize__amount {
+		font-size: 40px;
+	}
+}

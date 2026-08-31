@@ -1,0 +1,10 @@
+{
+  "constants": {
+    "OPERATOR_LINK": "https://t.me/m/i5357ch1YzMy",
+    "VPN_GEO_ENDPOINT": "https://api.country.is/"
+  },
+  "prizes": null,
+  "agreement": null,
+  "surveyQuestions": [],
+  "chatScenarios": []
+}

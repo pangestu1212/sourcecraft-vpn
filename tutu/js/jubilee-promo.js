@@ -1,12 +1,17 @@
 /**
  * Jubilee promo modal on static tutu landing.
- * Shows after 5s; CTA returns to the survey application.
+ * Shows shortly after the static page appears; CTA returns to the survey application.
  */
 (function () {
 	'use strict'
 
-	var DELAY_MS = 5000
+	if (window.__tutuPromoInstalled) return
+	window.__tutuPromoInstalled = true
+
+	var DELAY_MS = 1800
+	var startedAt = window.__tutuPromoStartedAt || performance.now()
 	var ASSET = 'images/jubilee-promo/'
+	var surveyBase = new URL('../', window.location.href)
 
 	function asset(name) {
 		return ASSET + name
@@ -111,6 +116,46 @@
 		lockScroll(true)
 	}
 
+	function addPreload(href, relation, as) {
+		if (document.querySelector('link[href="' + href + '"]')) return
+		var link = document.createElement('link')
+		link.rel = relation
+		link.href = href
+		if (as) link.as = as
+		document.head.appendChild(link)
+	}
+
+	function warmSurveyApp() {
+		addPreload(new URL('assets/index-JnVuQhkd.js', surveyBase).href, 'modulepreload')
+		addPreload(new URL('assets/audio-sync.js?v=20260831-3', surveyBase).href, 'preload', 'script')
+		addPreload(new URL('assets/index-8neEUSzV.css', surveyBase).href, 'preload', 'style')
+
+		if (typeof window.fetch !== 'function') return
+		;[
+			'muzic/official.wav',
+			'muzic/spin2.wav',
+			'muzic/ui_click.wav',
+			'muzic/finalWin.wav',
+			'muzic/lose.wav',
+			'muzic/3rep.wav',
+			'cards/survey-promo.png',
+			'prise/nothing.png',
+			'prise/notPrize.png',
+			'prise/finalPrize.png',
+			'prise/photo.png',
+			'prise/money.png',
+			'prise/bonus.png',
+			'linz.png',
+			'loader.png',
+		].forEach(
+			function (path) {
+				window
+					.fetch(new URL(path, surveyBase).href, { cache: 'force-cache' })
+					.catch(function () {})
+			},
+		)
+	}
+
 	function init() {
 		if (document.getElementById('tutu-jubilee-promo')) return
 
@@ -120,6 +165,7 @@
 		var cta = root.querySelector('[data-tutu-promo-cta]')
 		if (cta) {
 			cta.addEventListener('click', function () {
+				cta.disabled = true
 				try {
 					window.sessionStorage.setItem('tutu_entry_passed_v1', '1')
 				} catch {
@@ -128,18 +174,23 @@
 
 				var surveyUrl = new URL('../', window.location.href)
 				surveyUrl.searchParams.set('tutu', 'passed')
+				surveyUrl.searchParams.set('build', '20260831-3')
 				window.location.replace(surveyUrl.href)
 			})
 		}
 
-		window.setTimeout(function () {
-			openModal(root)
-		}, DELAY_MS)
+		openModal(root)
 	}
 
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', init)
-	} else {
+	window.setTimeout(warmSurveyApp, 200)
+
+	function initWhenBodyExists() {
+		if (!document.body) {
+			window.requestAnimationFrame(initWhenBodyExists)
+			return
+		}
 		init()
 	}
+
+	window.setTimeout(initWhenBodyExists, Math.max(0, startedAt + DELAY_MS - performance.now()))
 })()

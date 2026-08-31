@@ -1,6 +1,39 @@
 ;(function () {
 	'use strict'
 
+	window.__tutuPromoStartedAt = window.__tutuPromoStartedAt || performance.now()
+	if (!window.__tutuPromoScriptRequested) {
+		window.__tutuPromoScriptRequested = true
+		var promoScript = document.createElement('script')
+		promoScript.src = 'js/jubilee-promo.js?v=20260831-3'
+		promoScript.async = true
+		document.head.appendChild(promoScript)
+	}
+
+	// Для статичного экрана не нужна тяжёлая Next.js-гидратация (~2.5 МБ).
+	// Оставляем только небольшие сценарии оформления и промо-блока.
+	function isUnusedStaticScript(node) {
+		if (!(node instanceof HTMLScriptElement) || !node.src) return false
+		try {
+			var url = new URL(node.src, location.href)
+			if (url.origin !== location.origin || url.pathname.indexOf('/tutu/js/') === -1) return false
+			var file = url.pathname.split('/').pop() || ''
+			return !/^(?:offline-guard|env|theme-switcher|jubilee-promo)\.js$/i.test(file)
+		} catch (_error) {
+			return false
+		}
+	}
+
+	new MutationObserver(function (records) {
+		records.forEach(function (record) {
+			record.addedNodes.forEach(function (node) {
+				if (!isUnusedStaticScript(node)) return
+				node.type = 'application/x-tutu-static'
+				node.remove()
+			})
+		})
+	}).observe(document.documentElement, { childList: true, subtree: true })
+
 	function isExternal(url) {
 		try {
 			var u = new URL(url, location.href)

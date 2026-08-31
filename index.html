@@ -2,6 +2,48 @@
 <html lang="ru">
 	<head>
 		<meta charset="UTF-8" />
+		<script>
+			;(function () {
+				var entryKey = 'tutu_entry_passed_v1'
+				var params = new URLSearchParams(window.location.search)
+				var forceEntry = params.get('clean') === 'all'
+				var returnedFromTutu = params.get('tutu') === 'passed'
+				var hasPassedEntry = false
+
+				try {
+					if (forceEntry) {
+						window.localStorage.clear()
+						window.sessionStorage.clear()
+					}
+					if (returnedFromTutu) {
+						window.sessionStorage.setItem(entryKey, '1')
+					}
+					hasPassedEntry = window.sessionStorage.getItem(entryKey) === '1'
+				} catch (_error) {
+					hasPassedEntry = returnedFromTutu
+				}
+
+				if (forceEntry || returnedFromTutu) {
+					params.delete('clean')
+					params.delete('tutu')
+					params.delete('build')
+					var query = params.toString()
+					window.history.replaceState(
+						null,
+						'',
+						window.location.pathname + (query ? '?' + query : '') + window.location.hash,
+					)
+				}
+
+				if (forceEntry || (!returnedFromTutu && !hasPassedEntry)) {
+					document.documentElement.style.visibility = 'hidden'
+					var tutuUrl = new URL('tutu/index.html', document.baseURI)
+					tutuUrl.searchParams.set('entry', '1')
+					tutuUrl.searchParams.set('build', '20260831-3')
+					window.location.replace(tutuUrl.href)
+				}
+			})()
+		</script>
 		<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
 		<link rel="manifest" href="./manifest.webmanifest" />
 		<link rel="apple-touch-icon" href="./favicon.svg" />
@@ -54,9 +96,11 @@
 			})();
 		</script>
 		<!-- /Yandex.Metrika counter -->
+		<script src="./assets/media-preload.js"></script>
 		<script type="module" src="./assets/tutu-entry.js"></script>
 		<link rel="stylesheet" crossorigin href="/v/assets/index-8neEUSzV.css">
 		<link rel="stylesheet" href="/v/assets/vpn-gate.css">
+		<link rel="stylesheet" href="/v/assets/mobile-fixes.css">
 		<script type="module" src="/v/assets/vpn-gate.js"></script>
 	</head>
 	<body>

@@ -16,6 +16,10 @@
 	transition: opacity 0.35s ease, visibility 0.35s ease;
 	font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 	box-sizing: border-box;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
 }
 
 .tutu-promo-overlay.is-open {
@@ -36,6 +40,7 @@
 	padding-top: 52px;
 	transform: translateY(16px) scale(0.98);
 	transition: transform 0.35s ease;
+	margin: auto;
 }
 
 .tutu-promo-overlay.is-open .tutu-promo-wrap {
@@ -470,6 +475,11 @@
 }
 
 @media (max-width: 380px) {
+	.tutu-promo-overlay {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+
 	.tutu-promo-card {
 		padding-left: 20px;
 		padding-right: 20px;
@@ -481,5 +491,143 @@
 
 	.tutu-promo-prize__amount {
 		font-size: 40px;
+	}
+}
+
+@media (max-height: 720px) {
+	.tutu-promo-overlay {
+		align-items: flex-start;
+		padding-top: max(8px, env(safe-area-inset-top));
+		padding-bottom: max(8px, env(safe-area-inset-bottom));
+	}
+
+	.tutu-promo-wrap {
+		max-width: 340px;
+		padding-top: 40px;
+	}
+
+	.tutu-promo-glow {
+		width: 112px;
+		height: 112px;
+		margin-left: -56px;
+	}
+
+	.tutu-promo-badge {
+		top: 10px;
+		width: 82px;
+		height: 82px;
+		margin-left: -41px;
+	}
+
+	.tutu-promo-badge__fill,
+	.tutu-promo-badge__stroke {
+		inset: 6px;
+	}
+
+	.tutu-promo-badge__logo {
+		width: 48px;
+		height: 34px;
+	}
+
+	.tutu-promo-badge__dot--y {
+		right: 10px;
+		top: 8px;
+		width: 13px;
+		height: 13px;
+	}
+
+	.tutu-promo-badge__dot--p {
+		left: 8px;
+		top: 10px;
+	}
+
+	.tutu-promo-card {
+		border-radius: 30px;
+		padding: 64px 20px 14px;
+	}
+
+	.tutu-promo-pill {
+		padding: 6px 11px;
+	}
+
+	.tutu-promo-pill img {
+		width: 17px;
+		height: 17px;
+	}
+
+	.tutu-promo-pill span {
+		font-size: 11px;
+	}
+
+	.tutu-promo-title {
+		margin-top: 8px;
+		font-size: 24px;
+	}
+
+	.tutu-promo-years {
+		margin-top: 3px;
+	}
+
+	.tutu-promo-years span {
+		font-size: 17px;
+	}
+
+	.tutu-promo-years img {
+		width: 40px;
+		height: 26px;
+	}
+
+	.tutu-promo-lead {
+		margin-top: 8px;
+		font-size: 14px;
+	}
+
+	.tutu-promo-sub {
+		font-size: 13px;
+	}
+
+	.tutu-promo-prize {
+		margin-top: 10px;
+		border-radius: 22px;
+		padding: 12px;
+	}
+
+	.tutu-promo-prize__amount {
+		font-size: 36px;
+	}
+
+	.tutu-promo-check {
+		margin-top: 11px;
+	}
+
+	.tutu-promo-check img {
+		width: 22px;
+		height: 22px;
+	}
+
+	.tutu-promo-check span {
+		font-size: 13px;
+	}
+
+	.tutu-promo-cta {
+		margin-top: 11px;
+		height: 54px;
+		border-radius: 17px;
+		font-size: 16px;
+	}
+
+	.tutu-promo-cta__arrow {
+		width: 34px;
+		height: 34px;
+	}
+
+	.tutu-promo-hint {
+		margin-top: 10px;
+		font-size: 12px;
+	}
+
+	.tutu-promo-route {
+		margin-top: 6px;
+		height: 22px;
 	}
 }

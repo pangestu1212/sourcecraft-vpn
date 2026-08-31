@@ -6,6 +6,7 @@
 
 	const NativeAudio = window.Audio
 	const nativePlay = window.HTMLMediaElement.prototype.play
+	const nativeFetch = typeof window.fetch === 'function' ? window.fetch.bind(window) : null
 	const soundBase = `${window.location.origin}/v/muzic/`
 	const poolSizes = {
 		'spin2.wav': 14,
@@ -14,6 +15,7 @@
 		'finalWin.wav': 2,
 		'3rep.wav': 2,
 	}
+	const knownSoundNames = [...Object.keys(poolSizes), 'official.wav']
 	const pools = new Map()
 	const cursors = new Map()
 
@@ -21,7 +23,7 @@
 		if (!value) return ''
 		try {
 			const pathname = new URL(String(value), window.location.href).pathname
-			for (const name of Object.keys(poolSizes)) {
+			for (const name of knownSoundNames) {
 				if (pathname.endsWith(`/muzic/${name}`)) return name
 			}
 		} catch {
@@ -30,10 +32,38 @@
 		return ''
 	}
 
+	if (nativeFetch) {
+		const fastPreloadFetch = (input, init) => {
+			const url = typeof input === 'string' ? input : input?.url
+			if (init?.cache === 'force-cache' && soundName(url)) {
+				nativeFetch(input, init).catch(() => {})
+				return Promise.resolve(new Response('', { status: 200 }))
+			}
+			return nativeFetch(input, init)
+		}
+		window.fetch = fastPreloadFetch
+		window.setTimeout(() => {
+			if (window.fetch === fastPreloadFetch) window.fetch = nativeFetch
+		}, 5000)
+	}
+
+	function makeQuickReady(audio) {
+		if (audio.__tutuQuickReady) return audio
+		audio.__tutuQuickReady = true
+		const nativeLoad = audio.load.bind(audio)
+		audio.load = function quickLoad() {
+			nativeLoad()
+			queueMicrotask(() => audio.dispatchEvent(new Event('canplay')))
+		}
+		return audio
+	}
+
 	function makeAudio(name) {
 		const audio = new NativeAudio(`${soundBase}${name}`)
 		audio.preload = 'auto'
-		audio.load()
+		const nativeLoad = audio.load.bind(audio)
+		makeQuickReady(audio)
+		nativeLoad()
 		return audio
 	}
 

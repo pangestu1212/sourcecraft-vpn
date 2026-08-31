@@ -1,0 +1,110 @@
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+html,
+body,
+#root {
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+	max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+	min-width: 0;
+}
+
+.survey-screen-overlay,
+.survey-flow-backdrop {
+	height: 100vh;
+	min-height: 100vh;
+	max-height: 100vh;
+}
+
+@supports (height: 100dvh) {
+	.survey-screen-overlay,
+	.survey-flow-backdrop {
+		height: 100dvh;
+		min-height: 100dvh;
+		max-height: 100dvh;
+	}
+}
+
+@media (max-width: 389px) {
+	body > div[class~="fixed"][class~="inset-0"] {
+		width: 100vw;
+		max-width: 100vw;
+	}
+
+	body > div[class~="fixed"][class~="inset-0"] > div[class~="relative"][class*="max-w-"] {
+		width: 100%;
+		max-width: calc(100vw - 24px) !important;
+		min-width: 0;
+	}
+
+	.survey-screen-overlay > div[class~="relative"][class*="max-w-"] {
+		max-width: calc(100vw - 24px) !important;
+	}
+
+	[class~="w-90"] {
+		width: 100% !important;
+		max-width: 320px;
+	}
+
+	[class~="ml-[20px]"] {
+		min-width: 0;
+		word-break: break-word;
+		overflow-wrap: anywhere;
+	}
+}
+
+@media (max-height: 700px) {
+	body > div[class~="fixed"][class~="inset-0"][class~="flex"][class~="items-center"] {
+		align-items: flex-start !important;
+		overflow-y: auto;
+		padding-top: 12px !important;
+		padding-bottom: 12px !important;
+		padding-top: max(12px, env(safe-area-inset-top)) !important;
+		padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	body > div[class~="fixed"][class~="inset-0"] > div[class~="relative"][class*="max-w-"],
+	.survey-screen-overlay > div[class~="relative"][class*="max-w-"] {
+		max-height: calc(100vh - 24px);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	@supports (height: 100svh) {
+		body > div[class~="fixed"][class~="inset-0"] > div[class~="relative"][class*="max-w-"],
+		.survey-screen-overlay > div[class~="relative"][class*="max-w-"] {
+			max-height: calc(100svh - 24px);
+		}
+	}
+
+	div[class~="max-h-[calc(100vh-60px)]"] {
+		max-height: calc(100vh - 44px) !important;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+}

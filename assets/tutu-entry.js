@@ -1,5 +1,5 @@
 const ENTRY_SESSION_KEY = 'tutu_entry_passed_v1'
-const AUDIO_SCRIPT_PATH = 'assets/audio-sync.js'
+const AUDIO_SCRIPT_PATH = 'assets/audio-sync.js?v=20260831-3'
 const APP_SCRIPT_PATH = '/v/assets/index-JnVuQhkd.js'
 
 let appLoadStarted = false
@@ -50,6 +50,7 @@ function prepareEntryState() {
 	if (forceEntry || returnedFromTutu) {
 		params.delete('clean')
 		params.delete('tutu')
+		params.delete('build')
 		replaceCurrentQuery(params)
 	}
 
@@ -81,6 +82,7 @@ function loadApp() {
 function openTutuPage() {
 	const tutuUrl = new URL('tutu/index.html', document.baseURI)
 	tutuUrl.searchParams.set('entry', '1')
+	tutuUrl.searchParams.set('build', '20260831-3')
 	window.location.replace(tutuUrl.href)
 }
 

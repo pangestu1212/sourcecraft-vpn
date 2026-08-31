@@ -8,11 +8,11 @@
 	const nativePlay = window.HTMLMediaElement.prototype.play
 	const soundBase = `${window.location.origin}/v/muzic/`
 	const poolSizes = {
-		'spin2.wav': 18,
-		'ui_click.wav': 8,
-		'lose.wav': 3,
-		'finalWin.wav': 3,
-		'3rep.wav': 3,
+		'spin2.wav': 14,
+		'ui_click.wav': 4,
+		'lose.wav': 2,
+		'finalWin.wav': 2,
+		'3rep.wav': 2,
 	}
 	const pools = new Map()
 	const cursors = new Map()

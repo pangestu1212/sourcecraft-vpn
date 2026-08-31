@@ -1,6 +1,52 @@
 const ENTRY_SESSION_KEY = 'tutu_entry_passed_v1'
 const START_MESSAGE = 'tutu-entry:start-survey'
 const INTERACTIVE_DELAY_MS = 4800
+const AUDIO_SCRIPT_PATH = 'assets/audio-sync.js'
+const APP_SCRIPT_PATH = '/v/assets/index-JnVuQhkd.js'
+
+let appLoadStarted = false
+
+function consumeCleanAllParam() {
+	const params = new URLSearchParams(window.location.search)
+	if (params.get('clean') !== 'all') return false
+
+	try {
+		window.localStorage.clear()
+		window.sessionStorage.clear()
+	} catch {
+		// Хранилище может быть недоступно в приватном режиме.
+	}
+
+	params.delete('clean')
+	const query = params.toString()
+	const cleanUrl = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`
+	window.history.replaceState(window.history.state, '', cleanUrl)
+	return true
+}
+
+const forceEntry = consumeCleanAllParam()
+
+function loadApp() {
+	if (appLoadStarted) return
+	appLoadStarted = true
+
+	const startMainBundle = () => {
+		if (document.querySelector('script[data-tutu-main-app]')) return
+		const appScript = document.createElement('script')
+		appScript.type = 'module'
+		appScript.src = APP_SCRIPT_PATH
+		appScript.crossOrigin = 'anonymous'
+		appScript.dataset.tutuMainApp = 'true'
+		document.head.appendChild(appScript)
+	}
+
+	const audioScript = document.createElement('script')
+	audioScript.src = new URL(AUDIO_SCRIPT_PATH, document.baseURI).href
+	audioScript.dataset.tutuAudioSync = 'true'
+	audioScript.addEventListener('load', startMainBundle, { once: true })
+	audioScript.addEventListener('error', startMainBundle, { once: true })
+	document.head.appendChild(audioScript)
+}
 
 function hasPassedEntry() {
 	try {
@@ -19,13 +65,17 @@ function rememberEntryPassed() {
 }
 
 function shouldSkipEntry() {
-	const params = new URLSearchParams(window.location.search)
-	if (params.get('clean') === 'all') return false
-	return hasPassedEntry()
+	return !forceEntry && hasPassedEntry()
 }
 
 function mountTutuEntry() {
-	if (shouldSkipEntry() || document.querySelector('.tutu-entry-overlay')) return
+	if (shouldSkipEntry()) {
+		loadApp()
+		return
+	}
+	if (document.querySelector('.tutu-entry-overlay')) return
+
+	document.getElementById('bp-page-loader')?.remove()
 
 	const overlay = document.createElement('div')
 	overlay.className = 'tutu-entry-overlay'
@@ -63,7 +113,10 @@ function mountTutuEntry() {
 		rememberEntryPassed()
 		overlay.classList.add('is-leaving')
 		document.documentElement.classList.remove('tutu-entry-lock')
-		window.setTimeout(() => overlay.remove(), 430)
+		window.setTimeout(() => {
+			overlay.remove()
+			loadApp()
+		}, 430)
 	}
 
 	window.addEventListener('message', finish)

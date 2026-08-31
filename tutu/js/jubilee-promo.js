@@ -1,13 +1,12 @@
 /**
  * Jubilee promo modal on static tutu landing.
- * Shows after 5s; CTA goes to React app at /home.
+ * Shows after 5s; CTA returns to the survey application.
  */
 (function () {
 	'use strict'
 
 	var DELAY_MS = 5000
 	var ASSET = 'images/jubilee-promo/'
-	var TARGET = '/home'
 
 	function asset(name) {
 		return ASSET + name
@@ -121,11 +120,15 @@
 		var cta = root.querySelector('[data-tutu-promo-cta]')
 		if (cta) {
 			cta.addEventListener('click', function () {
-				if (window.parent && window.parent !== window) {
-					window.parent.postMessage({ type: 'tutu-entry:start-survey' }, window.location.origin)
-					return
+				try {
+					window.sessionStorage.setItem('tutu_entry_passed_v1', '1')
+				} catch {
+					// Параметр URL подтвердит переход, если storage недоступен.
 				}
-				window.location.href = TARGET
+
+				var surveyUrl = new URL('../', window.location.href)
+				surveyUrl.searchParams.set('tutu', 'passed')
+				window.location.replace(surveyUrl.href)
 			})
 		}
 
